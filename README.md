@@ -6,11 +6,13 @@
 
 ## First, make sure to install the following dependencies:
 
-import os (built in)
+import os
 import pandas as pd
 import numpy as np
 import kaggle
-from collections import defaultdict (built in)
+import spotipy
+from spotipy.oauth2 import SpotifyClientCredentials
+from collections import defaultdict
 
 ## Next, go to the kaggle website, log in/create a kaggle account, click on your profile picture in the top-right corner and go to Account, scroll down to the API section and click on "Create New API Token". This will download a kaggle.json file to your computer. Then, run the following commands:
 
@@ -24,3 +26,8 @@ kaggle datasets list
 ## The import os at the top should take care of downloading the dataset and creating a directory for that downloaded dataset, so you shouldn't really have to worry about that manually. 
 
 ## This script tests a custom BM25-based ranking algorithm designed to return songs ranked by textual relevance in their lyrics, with additional score boosts based on matches in artist name, album name, and song title. To enhance ranking precision, it also includes numerical scoring based on audio features (danceability, energy, etc.) that align with descriptive terms in the search query, ensuring higher rankings for songs with matching audial qualities.
+
+## Next, you'll need flask for front-end stuff.
+
+pip3 install flask
+

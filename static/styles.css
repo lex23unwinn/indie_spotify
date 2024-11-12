@@ -1,0 +1,166 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: linear-gradient(to right, #4a90e2, #9013fe);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    color: #f3f3f3;
+    padding: 20px;
+}
+
+.container {
+    max-width: 600px;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    color: #333;
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: #4a90e2;
+    margin-bottom: 10px;
+}
+
+h3 {
+    font-weight: 300;
+    font-size: 1.2rem;
+    color: #9013fe;
+    margin-bottom: 20px;
+}
+
+p {
+    font-size: 1rem;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+input[type="text"] {
+    width: 80%;
+    padding: 12px;
+    border: 2px solid #4a90e2;
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 20px;
+    outline: none;
+}
+
+input[type="text"]:focus {
+    border-color: #9013fe;
+}
+
+button {
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #9013fe;
+}
+
+.extra-info {
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.extra-info a {
+    color: #4a90e2;
+    text-decoration: none;
+}
+
+.extra-info a:hover {
+    text-decoration: underline;
+}
+
+.container-results {
+    max-width: 1200px;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    color: #333;
+}
+
+.results-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.results-list li {
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    transition: box-shadow 0.3s ease;
+}
+
+.results-list li:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.song-info {
+    display: flex;
+    gap: 1em;
+    overflow-x: auto;
+    align-items: center;
+}
+
+h4 {
+    margin: 0;
+    font-size: 1.2em;
+    color: #333;
+}
+
+h4 a {
+    text-decoration: underline;
+    color: #1db954; 
+}
+
+h4 a:hover {
+    color: black;
+}
+
+.song-info p {
+    font-size: 1rem;
+    color: #555;
+    margin: 5px 0;
+}
+
+.back-link {
+    display: inline-block;
+    margin-top: 20px;
+    color: #9013fe;
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}

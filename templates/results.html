@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indie Spotify - Results</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container-results">
+
+        <a href="/" class="back-link">← Back to Search</a>
+
+        <h1>Search Results</h1>
+        <h3>Results for "{{ query }}"</h3>
+
+        {% if ranked_songs %}
+            <ol class="results-list">
+                {% for song in ranked_songs %}
+                    <li>
+                        <div class="song-info">
+                            {% if song['album_image_url'] %}
+                                <img src="{{ song['album_image_url'] }}" alt="{{ song['album_name'] }} album cover" style="width:100px;height:100px;">
+                            {% else %}
+                                <img src="/static/default_image.jpg" alt="No album cover" style="width:100px;height:100px;">
+                            {% endif %}
+                            <h4><a href="{{ song['spotify_url'] }}" target="_blank">{{ song['name'] }}</a></h4>
+                            <p><strong>Artist:</strong> {{ song['artists'] }}</p>
+                            <p><strong>Album:</strong> {{ song['album_name'] }}</p>
+                            <p><strong>Score:</strong> {{ song['score'] | round(2) }}</p>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ol>
+        {% else %}
+            <p>No results found for "{{ query }}". Please try a different search.</p>
+        {% endif %}
+
+        <a href="/" class="back-link">← Back to Search</a>
+    </div>
+</body>
+</html>
