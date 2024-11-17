@@ -15,7 +15,7 @@ else:
     print("Dataset already downloaded.")
 
 print("Loading dataset...")
-data = pd.read_csv(dataset_path, nrows=1000)
+data = pd.read_csv(dataset_path, nrows=5000)
 print("Dataset loaded.")
 
 bm25 = BM25IndieSpotify(data)
@@ -30,9 +30,10 @@ def home():
 @app.route('/results', methods=['POST'])
 def results():
     query = request.form.get('query')
-    print(f"Received query: '{query}'")
-    ranked_songs = bm25.rank_songs(query)
-    print("Rendering results page.")
+    popularity_threshold = int(request.form.get('popularity_threshold', 50)) 
+    print(f"Received query: '{query}' with popularity threshold: {popularity_threshold}")
+    
+    ranked_songs = bm25.rank_songs(query, popularity_threshold=popularity_threshold)
     return render_template('results.html', query=query, ranked_songs=ranked_songs)
 
 if __name__ == '__main__':

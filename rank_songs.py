@@ -28,19 +28,27 @@ class BM25IndieSpotify:
         print("Document frequencies computed.")
 
 
-    def fetch_track_info(self, track_id): 
+    def fetch_track_info(self, track_id, popularity_threshold=50): 
         print(f"Fetching track info for track ID: {track_id}")
         try:
             track = sp.track(track_id)
             album_image_url = track['album']['images'][0]['url'] if track['album']['images'] else None
             popularity = track['popularity']
+
+            if popularity >= popularity_threshold:
+                print(f"Track {track_id} is too popular (popularity: {popularity}), skipping.")
+                return None, None  
+
+            if popularity is None:
+                return None, None
+            
             return album_image_url, popularity
         except Exception as e:
             print(f"Error fetching track info: {e}")
             return None, None
         
 
-    def calculate_textual_score(self, query, song_lyrics, song_artists, song_album, song_title, artist_boost=5.0, album_boost=3.0, title_boost=3.0):
+    def calculate_textual_score(self, query, song_lyrics, song_artists, song_album, song_title, artist_boost=5.0, album_boost=3.0, title_boost=1.0):
         print(f"Calculating textual score for query: '{query}'")
 
         if pd.isna(song_lyrics):
@@ -53,33 +61,43 @@ class BM25IndieSpotify:
         avg_doc_length = self.avg_lyrics_len
 
         score = 0
+
+        if isinstance(song_artists, str):
+            song_artists_lower = song_artists.lower().split()
+            for term in query_terms:
+                if term in song_artists_lower:
+                    score += artist_boost
+                    break 
+        if isinstance(song_album, str):
+            song_album_lower = song_album.lower().split()
+            for term in query_terms:
+                if term in song_album_lower:
+                    score += album_boost
+                    break
+        if isinstance(song_title, str):
+            song_title_lower = song_title.lower().split()
+            for term in query_terms:
+                if term in song_title_lower:
+                    score += title_boost
+                    break
+
         tf_lyrics = defaultdict(int)
-        
         for term in lyrics_terms:
             tf_lyrics[term] += 1
 
-        song_artists_lower = song_artists.lower() if isinstance(song_artists, str) else ""
-        song_album_lower = song_album.lower() if isinstance(song_album, str) else ""
-        song_title_lower = song_title.lower() if isinstance(song_title, str) else ""
+        total_docs = len(self.data)
 
         for term in query_terms:
-            print(f"Processing term: '{term}'")
-            if song_artists_lower and term in song_artists_lower:
-                score += artist_boost
-            if song_album_lower and term in song_album_lower:
-                score += album_boost
-            if song_title_lower and term in song_title_lower:
-                score += title_boost
-
             tf = tf_lyrics.get(term, 0)
             if tf > 0:
                 df = self.df_dict.get(term, 0)
-                idf = np.log(len(self.data) / (df + 1))
+                idf = np.log(total_docs / (df + 1))
                 tf_component = (tf * (self.k1 + 1)) / (tf + self.k1 * (1 - self.b + self.b * (doc_length / avg_doc_length)))
                 score += idf * tf_component
+
         print(f"Score calculated: {score}")
-        
         return score
+
     
 
     def rank_songs(self, query, popularity_threshold=50):
@@ -87,12 +105,8 @@ class BM25IndieSpotify:
         
         for _, song in self.data.iterrows():
             try:
-                album_image_url, popularity = self.fetch_track_info(song['id'])
-
-                if popularity is None:
-                    continue  
-                
-                if popularity >= popularity_threshold:
+                album_image_url, popularity = self.fetch_track_info(song['id'], popularity_threshold)
+                if album_image_url is None: 
                     continue
                 
                 bm25_lyrics_score = self.calculate_textual_score(
@@ -115,5 +129,4 @@ class BM25IndieSpotify:
                 continue
         
         top_songs = sorted(ranked_songs, key=lambda x: x['score'], reverse=True)[:10]
-        
         return top_songs
