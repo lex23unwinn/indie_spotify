@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indie Spotify - Recommendations</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container-results">
+
+        <a href="/knn" class="back-link">← Back to Search</a>
+
+        <h1>Recommended Songs</h1>
+
+        {% if recommendations %}
+            <ol class="results-list">
+                {% for song in recommendations %}
+                    <li>
+                        <div class="song-info">
+                            {% if song.album_image_url %}
+                                <img src="{{ song.album_image_url }}" alt="{{ song.album_name }} album cover" style="width:100px;height:100px;">
+                            {% else %}
+                                <img src="/static/default_image.jpg" alt="No album cover" style="width:100px;height:100px;">
+                            {% endif %}
+                            <h4><a href="{{ song.spotify_url }}" target="_blank">{{ song.name }}</a></h4>
+                            <p><strong>Artist:</strong> {{ song.artists }}</p>
+                            <p><strong>Album:</strong> {{ song.album_name }}</p>
+                            <p><strong>Similarity:</strong> {{ song.similarity | round(2) }}</p>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ol>
+        {% else %}
+            <p>No recommendations available. Please try again!</p>
+        {% endif %}
+
+        <a href="/knn" class="back-link">← Back to Search</a>
+    </div>
+</body>
+</html>

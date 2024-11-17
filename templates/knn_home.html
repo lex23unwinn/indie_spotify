@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indie Spotify - KNN Recommender</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Indie Spotify - VSM Recommender</h1>
+        <p><a href="/" class="back-link">← Back To The BM25!</a></p>
+        <form action="/knn_results" method="post">
+            <p>Enter up to 5 Spotify Song IDs:</p>
+            <input type="text" name="song1" placeholder="Song ID 1">
+            <input type="text" name="song2" placeholder="Song ID 2">
+            <input type="text" name="song3" placeholder="Song ID 3">
+            <input type="text" name="song4" placeholder="Song ID 4">
+            <input type="text" name="song5" placeholder="Song ID 5">
+            
+            <label for="popularity-threshold">Popularity Threshold: <span id="threshold-value">25</span></label>
+            <input 
+                type="range" 
+                id="popularity-threshold" 
+                name="popularity_threshold" 
+                min="0" 
+                max="50" 
+                value="25" 
+                style="margin-bottom: 20px; display: block;"
+                oninput="document.getElementById('threshold-value').textContent = this.value">
+            
+            <button type="submit">Get Recommendations</button>
+        </form>
+    </div>
+</body>
+</html>
