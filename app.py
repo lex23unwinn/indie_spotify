@@ -16,7 +16,7 @@ else:
     print("Dataset already downloaded.")
 
 print("Loading dataset...")
-data = pd.read_csv(dataset_path, nrows=5000)
+data = pd.read_csv(dataset_path, nrows=20000)
 print("Dataset loaded.")
 
 bm25 = BM25IndieSpotify(data)
