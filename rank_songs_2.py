@@ -10,6 +10,7 @@ client_credentials_manager = SpotifyClientCredentials(client_id=SPOTIFY_CLIENT_I
 client_secret=SPOTIFY_CLIENT_SECRET)
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
+
 class KNNIndieSpotify:
     def __init__(self, data):
         self.data = data
